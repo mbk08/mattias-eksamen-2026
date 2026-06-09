@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teknisk Dokumentasjon - Kontorutleie-selskap</title>
+    <link rel="stylesheet" href="stil.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">Kontorutleie-selskap</div>
+            <ul>
+                <li><a href="index.html#services">Tjenester</a></li>
+                <li><a href="index.html#documentation">Dokumentasjon</a></li>
+                <li><a href="index.html#contact">Kontakt</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="container" style="padding-top: 2rem; padding-bottom: 2rem;">
+        <div class="breadcrumb">
+            <a href="index.html">← Tilbake til forsiden</a>
+        </div>
+
+        <h1 style="color: #667eea; margin-bottom: 1rem; font-size: 2.5rem;">Intern Teknisk Dokumentasjon</h1>
+        <p style="color: #555; margin-bottom: 3rem;">Infrastruktur, subnettverk og sikkerhetskonfigurasjon for kontorhotellet.</p>
+
+        <div class="doc-item">
+            <div class="doc-item-content">
+                <div class="doc-item-image">
+                    <img src="media/nettverksoppsett.png" alt="Router-on-a-Stick topologidiagram">
+                </div>
+                <div class="doc-item-description">
+                    <h3>Nettverksarkitektur (Router-on-a-Stick)</h3>
+                    <p>Infrastrukturen er bygget opp med en sentral Cisco-ruter koblet til en Layer 2-switch via en felles Trunk-linje (802.1Q). Dette muliggjør en kostnadseffektiv og skalerbar deling av ruterens fysiske grensesnitt inn i virtuelle subinterfaces.</p>
+                    <p>Hver leietaker tildeles et dedikert VLAN som isolerer lag 2-trafikken (broadcast-domenet) fullstendig fra de andre bedriftene.</p>
+                    <div class="doc-meta">📅 Oppdatert: Juni 2026</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="doc-item">
+            <div class="doc-item-content">
+                <div class="doc-item-image">
+                    <img src="media/ip_konfigurering.png" alt="IP-adresseskjema og VLAN-oversikt">
+                </div>
+                <div class="doc-item-description">
+                    <h3>IP-adressering og VLAN-struktur</h3>
+                    <p>For å sikre kapasitet til 1–10 ansatte per bedrift, benyttes et <code>192.168.X.0/24</code>-skjema som gir opptil 254 tilgjengelige adresser per subnett.</p>
+                    
+                    <table class="tech-table">
+                        <thead>
+                            <tr>
+                                <th>Miljø</th>
+                                <th>VLAN</th>
+                                <th>Subnett</th>
+                                <th>Standard Gateway</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Admin / Drift</td>
+                                <td>VLAN 10</td>
+                                <td>192.168.10.0/24</td>
+                                <td>192.168.10.1</td>
+                            </tr>
+                            <tr>
+                                <td>Bedrift A</td>
+                                <td>VLAN 20</td>
+                                <td>192.168.20.0/24</td>
+                                <td>192.168.20.1</td>
+                            </tr>
+                            <tr>
+                                <td>Bedrift B</td>
+                                <td>VLAN 30</td>
+                                <td>192.168.30.0/24</td>
+                                <td>192.168.30.1</td>
+                            </tr>
+                            <tr>
+                                <td>Webserver / DMZ</td>
+                                <td>VLAN 50</td>
+                                <td>192.168.50.0/24</td>
+                                <td>192.168.50.1</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="doc-meta">📅 Oppdatert: Juni 2026</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="doc-item">
+            <div class="doc-item-content">
+                <div class="doc-item-image">
+                    <img src="media/brannmur-regler.png" alt="Access Control List flytdiagram">
+                </div>
+                <div class="doc-item-description">
+                    <h3>Brannmur og Portstyring (ACL)</h3>
+                    <p>Sikkerheten håndteres via utvidede tilgangslister (Extended Access Control Lists) på ruteren med en <em>"Closed by default"</em> (Zero Trust) tilnærming.</p>
+                    <p>Hvert subinterface slipper kun igjennom lokalt subnett-trafikk, webtrafikk til fellesløsningen på VLAN 50 (Port 80/443), samt ruting ut til internett. All trafikk på tvers av leietakernes subnetter blir eksplisitt droppet av ruteren.</p>
+                    <div class="doc-meta">📅 Oppdatert: Juni 2026</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="doc-item">
+            <div class="doc-item-content">
+                <div class="doc-item-image">
+                    <img src="media/printer-oppsett.png" alt="Nettverksprinter konfigurasjon">
+                </div>
+                <div class="doc-item-description">
+                    <h3>Lokale ressurser og Periferiutstyr</h3>
+                    <p>Interne enheter som PC-er og nettverksprintere konfigureres med statiske IP-adresser eller dedikerte DHCP-pools innenfor bedriftens eget subnett (f.eks. printer på <code>192.168.20.50</code> for Bedrift A).</p>
+                    <p>Siden switchen håndterer lokal lag 2-svitsjing internt i VLAN-et, kan bedriftens ansatte printe og dele filer lokalt uten restriksjoner, mens eksterne VLAN blokkeres på rutersiden.</p>
+                    <div class="doc-meta">📅 Oppdatert: Juni 2026</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="doc-item">
+            <div class="doc-item-content">
+                <div class="doc-item-image">
+                    <img src="media/wifi-tilkobling.png" alt="Trådløst VLAN mapping diagram">
+                </div>
+                <div class="doc-item-description">
+                    <h3>WiFi-tilkobling og SSID-mapping</h3>
+                    <p>Det trådløse nettverket på kontorhotellet er satt opp med Multi-SSID-støtte på aksesspunktene. Hver leietaker har et eget unikt trådløst nettverksnavn (SSID) og WPA3-sikkerhetsnøkkel.</p>
+                    <p>Trafikken fra den spesifikke SSID-en mappes direkte over i leietakerens korresponderende VLAN på switchen, slik at trådløse enheter følger nøyaktig de samme brannmurreglene som kablede enheteter.</p>
+                    <div class="doc-meta">📅 Oppdatert: Juni 2026</div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Kontorutleie-selskap. Alle rettigheter reservert.</p>
+        <p>Kontorutleie og nettverksinfrastruktur | Arendal, Norge</p>
+    </footer>
+</body>
+</html>
